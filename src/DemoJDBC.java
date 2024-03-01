@@ -10,8 +10,16 @@ public class DemoJDBC {
         String password = "Sunny@007";
 
         Connection connection = DriverManager.getConnection(url,username,password);
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from student");
+        System.out.println("Connection Established");
+
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into student values (?,?,?)");
+        preparedStatement.setInt(1,8);
+        preparedStatement.setInt(2,82);
+        preparedStatement.setString(3,"Sai Krishna");
+        preparedStatement.execute();
+
+        //statement.execute("insert into student values (4,90,'Sai Ram')");
+        ResultSet resultSet = preparedStatement.executeQuery("select * from student");
 
         while(resultSet.next()){
             System.out.print(resultSet.getInt(1)+" - ");
@@ -20,7 +28,7 @@ public class DemoJDBC {
         }
 
         connection.close();
-        System.out.println("Connection Established");
+        System.out.println("Connection closed");
 
     }
 }
